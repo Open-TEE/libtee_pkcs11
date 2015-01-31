@@ -14,32 +14,70 @@
 ** limitations under the License.                                           **
 *****************************************************************************/
 
-#include "hal.h"
-#include "tee_client_api.h"
+#include "mutex_manager.h"
 
+#include <pthread.h>
 #include <stdlib.h>
 
-CK_RV hal_initialize_context(void **tee_context)
+static CK_CREATEMUTEX g_create;
+static CK_DESTROYMUTEX g_destroy;
+static CK_LOCKMUTEX g_lock;
+static CK_UNLOCKMUTEX g_unlock;
+
+void init_mutex_callbacks(CK_CREATEMUTEX create,
+			  CK_DESTROYMUTEX destroy,
+			  CK_LOCKMUTEX lock,
+			  CK_UNLOCKMUTEX unlock)
 {
-	TEEC_Context *context;
-	int ret;
-
-	context = calloc(1, sizeof(TEEC_Context));
-	if (context == NULL)
-		return CKR_HOST_MEMORY;
-
-	ret = TEEC_InitializeContext(NULL, context);
-	if (ret != TEEC_SUCCESS) {
-		free(context);
-		return CKR_GENERAL_ERROR;
-	}
-
-	*tee_context = context;
-	return CKR_OK;
+	g_create = create;
+	g_destroy = destroy;
+	g_lock = lock;
+	g_unlock = unlock;
 }
 
-CK_RV hal_finalize_context(void *tee_context)
+int create_mutex(void **mutex)
 {
-	TEEC_FinalizeContext(tee_context);
-	return CKR_OK;
+	pthread_mutex_t *m_lock;
+
+	if (g_create) {
+		return g_create(mutex);
+	} else {
+		m_lock = calloc(1, sizeof(pthread_mutex_t));
+		if (!m_lock)
+			return CKR_HOST_MEMORY;
+
+		if (pthread_mutex_init(m_lock, NULL) != 0)
+			return CKR_GENERAL_ERROR;
+
+		*mutex = m_lock;
+		return 0;
+	}
+}
+
+int destroy_mutex(void *mutex)
+{
+	if (g_destroy) {
+		return g_destroy(mutex);
+	} else {
+		if (pthread_mutex_destroy((pthread_mutex_t *)mutex))
+			return CKR_GENERAL_ERROR;
+		free(mutex);
+		return 0;
+	}
+}
+
+int lock_mutex(void *mutex)
+{
+	if (g_lock)
+		return g_lock(mutex);
+	else
+		return pthread_mutex_lock((pthread_mutex_t *)mutex);
+}
+
+int unlock_mutex(void *mutex)
+{
+	if (g_unlock)
+		return g_unlock(mutex);
+	else
+		return pthread_mutex_unlock((pthread_mutex_t *)mutex);
 }
