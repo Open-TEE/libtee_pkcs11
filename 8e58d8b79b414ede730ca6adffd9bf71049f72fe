@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1969be_b2e39504",
+        "filename": "src/mutex_manager.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-02-01T16:37:11Z",
+      "side": 1,
+      "message": "This is a general comment. What if lock-flag is not set and no function pointer is delivered -\u003e no concurrent accessing to this library. But I guess that we must bound our call with mutexs-function calls so we have the readiness. Now this call would fail, if init function is not called :\\",
+      "revId": "8e58d8b79b414ede730ca6adffd9bf71049f72fe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
