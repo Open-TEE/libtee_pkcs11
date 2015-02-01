@@ -177,6 +177,41 @@
     },
     {
       "key": {
+        "uuid": "7a1969be_72147df5",
+        "filename": "src/pkcs11_general.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-02-01T16:01:15Z",
+      "side": 1,
+      "message": "True.",
+      "parentUuid": "7a1969be_b292759d",
+      "revId": "76367cadbd116b572bac072d3eed6681719fb0fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_323165a3",
+        "filename": "src/pkcs11_general.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-02-01T16:01:15Z",
+      "side": 1,
+      "message": "Should we make a little comment that we are not handling flags-parameter? At this point it is not relevant, but in future? Or even if this an important thing? If we going to discard, for now, flags, then it can be if-else like in next comment.",
+      "revId": "76367cadbd116b572bac072d3eed6681719fb0fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1969be_32a045f4",
         "filename": "src/pkcs11_general.c",
         "patchSetId": 2
@@ -247,6 +282,24 @@
     },
     {
       "key": {
+        "uuid": "7a1969be_522ce14a",
+        "filename": "src/pkcs11_general.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-02-01T16:01:15Z",
+      "side": 1,
+      "message": "True.",
+      "parentUuid": "7a1969be_f28ced81",
+      "revId": "76367cadbd116b572bac072d3eed6681719fb0fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1969be_92a5b906",
         "filename": "src/pkcs11_general.c",
         "patchSetId": 2
@@ -276,6 +329,24 @@
       "side": 1,
       "message": "it is is NULL then it means that it has not been initialized",
       "parentUuid": "7a1969be_92a5b906",
+      "revId": "76367cadbd116b572bac072d3eed6681719fb0fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_f2ffcda8",
+        "filename": "src/pkcs11_general.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-02-01T16:01:15Z",
+      "side": 1,
+      "message": "Ok.",
+      "parentUuid": "7a1969be_52e98119",
       "revId": "76367cadbd116b572bac072d3eed6681719fb0fa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
