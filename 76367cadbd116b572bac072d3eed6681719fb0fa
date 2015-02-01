@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1969be_322b2584",
+        "filename": "src/hal_gp.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-02-01T12:06:37Z",
+      "side": 1,
+      "message": "Memory leak. Context is not freed",
+      "revId": "76367cadbd116b572bac072d3eed6681719fb0fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_9220199d",
+        "filename": "src/hal_gp.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-02-01T12:06:37Z",
+      "side": 1,
+      "message": "Possible dereferencing NULL pointer (*tee_context)",
+      "revId": "76367cadbd116b572bac072d3eed6681719fb0fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
