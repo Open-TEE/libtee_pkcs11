@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7a1969be_32ee8523",
+        "filename": "src/hal_gp.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000797
+      },
+      "writtenOn": "2015-02-01T13:47:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a1969be_322b2584",
+      "revId": "76367cadbd116b572bac072d3eed6681719fb0fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1969be_9220199d",
         "filename": "src/hal_gp.c",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2015-02-01T12:06:37Z",
       "side": 1,
       "message": "Possible dereferencing NULL pointer (*tee_context)",
+      "revId": "76367cadbd116b572bac072d3eed6681719fb0fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_92f3f909",
+        "filename": "src/hal_gp.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000797
+      },
+      "writtenOn": "2015-02-01T13:47:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a1969be_9220199d",
       "revId": "76367cadbd116b572bac072d3eed6681719fb0fa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "7a1969be_72f8fde5",
+        "filename": "src/mutex_manager.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000797
+      },
+      "writtenOn": "2015-02-01T13:47:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a1969be_d2ae11e7",
+      "revId": "76367cadbd116b572bac072d3eed6681719fb0fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1969be_b2ab95d5",
         "filename": "src/mutex_manager.c",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2015-02-01T12:58:35Z",
       "side": 1,
       "message": "pthread_mutex_destroy may return EBUSY, which means that another thread is holding a lock with this mutex. Therefore should it be destroyed in while-loop?",
+      "revId": "76367cadbd116b572bac072d3eed6681719fb0fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_d2dc5177",
+        "filename": "src/mutex_manager.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000797
+      },
+      "writtenOn": "2015-02-01T13:47:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a1969be_b2ab95d5",
       "revId": "76367cadbd116b572bac072d3eed6681719fb0fa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "7a1969be_b292759d",
+        "filename": "src/pkcs11_general.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000797
+      },
+      "writtenOn": "2015-02-01T13:47:57Z",
+      "side": 1,
+      "message": "I dont believe so, according to the document.  One side of the fork must call finalize first on its context, before calling C_Initialize again. The other side of hte fork can continue to use the existing Context",
+      "parentUuid": "7a1969be_126269d8",
+      "revId": "76367cadbd116b572bac072d3eed6681719fb0fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1969be_32a045f4",
         "filename": "src/pkcs11_general.c",
         "patchSetId": 2
@@ -98,6 +188,24 @@
       "writtenOn": "2015-02-01T12:58:35Z",
       "side": 1,
       "message": "Why two if\u0027s?\n\nif (non_null \u003d\u003d 4)\n  init_mutex(..);\nelse\n  return err;",
+      "revId": "76367cadbd116b572bac072d3eed6681719fb0fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_1290a994",
+        "filename": "src/pkcs11_general.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000797
+      },
+      "writtenOn": "2015-02-01T13:47:57Z",
+      "side": 1,
+      "message": "the spec says that if not all the callback functions are assigned then CKR_ARGUMENTS_BAD must be returned, so if any combination of 1, 2, or 3 are defined send the error.  So it is all or nothing.  0 OR 4, hence this stupid test :/",
+      "parentUuid": "7a1969be_32a045f4",
       "revId": "76367cadbd116b572bac072d3eed6681719fb0fa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "7a1969be_f28ced81",
+        "filename": "src/pkcs11_general.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000797
+      },
+      "writtenOn": "2015-02-01T13:47:57Z",
+      "side": 1,
+      "message": "any call to C_Finalize with pReserved not equal to NULL should return CKR_ARGUMENTS_BAD.  Or so the spec says",
+      "parentUuid": "7a1969be_72aabdd5",
+      "revId": "76367cadbd116b572bac072d3eed6681719fb0fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a1969be_92a5b906",
         "filename": "src/pkcs11_general.c",
         "patchSetId": 2
@@ -132,6 +258,24 @@
       "writtenOn": "2015-02-01T12:58:35Z",
       "side": 1,
       "message": "see line 61 comment",
+      "revId": "76367cadbd116b572bac072d3eed6681719fb0fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_52e98119",
+        "filename": "src/pkcs11_general.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000797
+      },
+      "writtenOn": "2015-02-01T13:47:57Z",
+      "side": 1,
+      "message": "it is is NULL then it means that it has not been initialized",
+      "parentUuid": "7a1969be_92a5b906",
       "revId": "76367cadbd116b572bac072d3eed6681719fb0fa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
