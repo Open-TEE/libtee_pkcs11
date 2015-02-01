@@ -33,6 +33,108 @@
       "revId": "76367cadbd116b572bac072d3eed6681719fb0fa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_d2ae11e7",
+        "filename": "src/mutex_manager.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-02-01T12:58:35Z",
+      "side": 1,
+      "message": "Memory leak. m_lock is not freed.",
+      "revId": "76367cadbd116b572bac072d3eed6681719fb0fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_b2ab95d5",
+        "filename": "src/mutex_manager.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-02-01T12:58:35Z",
+      "side": 1,
+      "message": "pthread_mutex_destroy may return EBUSY, which means that another thread is holding a lock with this mutex. Therefore should it be destroyed in while-loop?",
+      "revId": "76367cadbd116b572bac072d3eed6681719fb0fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_126269d8",
+        "filename": "src/pkcs11_general.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-02-01T12:58:35Z",
+      "side": 1,
+      "message": "What about if application uses Fork? Then it should recall c_initialize function, but now it can not do it.",
+      "revId": "76367cadbd116b572bac072d3eed6681719fb0fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_32a045f4",
+        "filename": "src/pkcs11_general.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-02-01T12:58:35Z",
+      "side": 1,
+      "message": "Why two if\u0027s?\n\nif (non_null \u003d\u003d 4)\n  init_mutex(..);\nelse\n  return err;",
+      "revId": "76367cadbd116b572bac072d3eed6681719fb0fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_72aabdd5",
+        "filename": "src/pkcs11_general.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-02-01T12:58:35Z",
+      "side": 1,
+      "message": "If this just reserved, why bother to check?",
+      "revId": "76367cadbd116b572bac072d3eed6681719fb0fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_92a5b906",
+        "filename": "src/pkcs11_general.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-02-01T12:58:35Z",
+      "side": 1,
+      "message": "see line 61 comment",
+      "revId": "76367cadbd116b572bac072d3eed6681719fb0fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
