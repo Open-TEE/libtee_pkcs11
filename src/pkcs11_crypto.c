@@ -21,7 +21,9 @@
  */
 
 
-CK_RV C_EncryptInit(CK_SESSION_HANDLE hSession, CK_MECHANISM_PTR pMechanism, CK_OBJECT_HANDLE hKey)
+CK_RV C_EncryptInit(CK_SESSION_HANDLE hSession,
+		    CK_MECHANISM_PTR pMechanism,
+		    CK_OBJECT_HANDLE hKey)
 {
 	return CKR_FUNCTION_NOT_SUPPORTED;
 }
@@ -57,7 +59,9 @@ CK_RV C_EncryptFinal(CK_SESSION_HANDLE hSession,
  */
 
 
-CK_RV C_DecryptInit(CK_SESSION_HANDLE hSession, CK_MECHANISM_PTR pMechanism, CK_OBJECT_HANDLE hKey)
+CK_RV C_DecryptInit(CK_SESSION_HANDLE hSession,
+		    CK_MECHANISM_PTR pMechanism,
+		    CK_OBJECT_HANDLE hKey)
 {
 	return CKR_FUNCTION_NOT_SUPPORTED;
 }
@@ -93,7 +97,8 @@ CK_RV C_DecryptFinal(CK_SESSION_HANDLE hSession,
  */
 
 
-CK_RV C_DigestInit(CK_SESSION_HANDLE hSession, CK_MECHANISM_PTR pMechanism)
+CK_RV C_DigestInit(CK_SESSION_HANDLE hSession,
+		   CK_MECHANISM_PTR pMechanism)
 {
 	return CKR_FUNCTION_NOT_SUPPORTED;
 }
@@ -107,12 +112,15 @@ CK_RV C_Digest(CK_SESSION_HANDLE hSession,
 	return CKR_FUNCTION_NOT_SUPPORTED;
 }
 
-CK_RV C_DigestUpdate(CK_SESSION_HANDLE hSession, CK_BYTE_PTR pPart, CK_ULONG ulPartLen)
+CK_RV C_DigestUpdate(CK_SESSION_HANDLE hSession,
+		     CK_BYTE_PTR pPart,
+		     CK_ULONG ulPartLen)
 {
 	return CKR_FUNCTION_NOT_SUPPORTED;
 }
 
-CK_RV C_DigestKey(CK_SESSION_HANDLE hSession, CK_OBJECT_HANDLE hKey)
+CK_RV C_DigestKey(CK_SESSION_HANDLE hSession,
+		  CK_OBJECT_HANDLE hKey)
 {
 	return CKR_FUNCTION_NOT_SUPPORTED;
 }
@@ -130,7 +138,9 @@ CK_RV C_DigestFinal(CK_SESSION_HANDLE hSession,
  */
 
 
-CK_RV C_SignInit(CK_SESSION_HANDLE hSession, CK_MECHANISM_PTR pMechanism, CK_OBJECT_HANDLE hKey)
+CK_RV C_SignInit(CK_SESSION_HANDLE hSession,
+		 CK_MECHANISM_PTR pMechanism,
+		 CK_OBJECT_HANDLE hKey)
 {
 	return CKR_FUNCTION_NOT_SUPPORTED;
 }
@@ -144,12 +154,16 @@ CK_RV C_Sign(CK_SESSION_HANDLE hSession,
 	return CKR_FUNCTION_NOT_SUPPORTED;
 }
 
-CK_RV C_SignUpdate(CK_SESSION_HANDLE hSession, CK_BYTE_PTR pPart, CK_ULONG ulPartLen)
+CK_RV C_SignUpdate(CK_SESSION_HANDLE hSession,
+		   CK_BYTE_PTR pPart,
+		   CK_ULONG ulPartLen)
 {
 	return CKR_FUNCTION_NOT_SUPPORTED;
 }
 
-CK_RV C_SignFinal(CK_SESSION_HANDLE hSession, CK_BYTE_PTR pSignature, CK_ULONG_PTR pulSignatureLen)
+CK_RV C_SignFinal(CK_SESSION_HANDLE hSession,
+		  CK_BYTE_PTR pSignature,
+		  CK_ULONG_PTR pulSignatureLen)
 {
 	return CKR_FUNCTION_NOT_SUPPORTED;
 }
@@ -192,12 +206,16 @@ CK_RV C_Verify(CK_SESSION_HANDLE hSession,
 	return CKR_FUNCTION_NOT_SUPPORTED;
 }
 
-CK_RV C_VerifyUpdate(CK_SESSION_HANDLE hSession, CK_BYTE_PTR pPart, CK_ULONG ulPartLen)
+CK_RV C_VerifyUpdate(CK_SESSION_HANDLE hSession,
+		     CK_BYTE_PTR pPart,
+		     CK_ULONG ulPartLen)
 {
 	return CKR_FUNCTION_NOT_SUPPORTED;
 }
 
-CK_RV C_VerifyFinal(CK_SESSION_HANDLE hSession, CK_BYTE_PTR pSignature, CK_ULONG ulSignatureLen)
+CK_RV C_VerifyFinal(CK_SESSION_HANDLE hSession,
+		    CK_BYTE_PTR pSignature,
+		    CK_ULONG ulSignatureLen)
 {
 	return CKR_FUNCTION_NOT_SUPPORTED;
 }
@@ -325,12 +343,16 @@ CK_RV C_DeriveKey(CK_SESSION_HANDLE hSession,
  */
 
 
-CK_RV C_SeedRandom(CK_SESSION_HANDLE hSession, CK_BYTE_PTR pSeed, CK_ULONG ulSeedLen)
+CK_RV C_SeedRandom(CK_SESSION_HANDLE hSession,
+		   CK_BYTE_PTR pSeed,
+		   CK_ULONG ulSeedLen)
 {
 	return CKR_FUNCTION_NOT_SUPPORTED;
 }
 
-CK_RV C_GenerateRandom(CK_SESSION_HANDLE hSession, CK_BYTE_PTR RandomData, CK_ULONG ulRandomLen)
+CK_RV C_GenerateRandom(CK_SESSION_HANDLE hSession,
+		       CK_BYTE_PTR RandomData,
+		       CK_ULONG ulRandomLen)
 {
 	return CKR_FUNCTION_NOT_SUPPORTED;
 }
