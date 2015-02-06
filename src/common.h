@@ -18,8 +18,9 @@
 #define __COMMON_H_
 
 #include "cryptoki.h"
+#include "tee_client_api.h"
 
-extern void *g_tee_context;
+extern TEEC_Context *g_tee_context;
 
 /* Following four macros are defined for function default parameter functionality. Idea is to
  * declare struct which will be containing default function parameters and have a middle function
