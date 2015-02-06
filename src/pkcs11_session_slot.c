@@ -15,13 +15,25 @@
 *****************************************************************************/
 
 #include "cryptoki.h"
+#include <stdlib.h>
+
+/* the slot id that we will assign to the TEE */
+#define TEE_SLOT_ID 1
 
 /*
  * 11.5 SLOT AND TOKEN MANAGEMENT
  */
 
 CK_RV C_GetSlotList(CK_BBOOL tokenPresent, CK_SLOT_ID_PTR pSlotList, CK_ULONG_PTR pulCount)
-{
+{	
+	/* in the TEE the token is always present, it is the TA */
+	tokenPresent = tokenPresent;
+
+	if (pSlotList != NULL && pulCount >= 1)
+		pSlotList[0] = TEE_SLOT_ID;
+
+	*pulCount = 1;
+
 	return CKR_FUNCTION_NOT_SUPPORTED;
 }
 

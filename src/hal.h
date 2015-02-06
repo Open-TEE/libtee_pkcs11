@@ -99,5 +99,15 @@ CK_RV hal_crypto_final(uint32_t command_id,
 			CK_BYTE_PTR dst,
 			CK_ULONG_PTR dst_len);
 
+/*!
+ * \brief hal_get_info
+ * A generic function to populate an info structure (CK_SLOT_INFO, CK_TOKEN_INFO)
+ * \param command_id The command to invoke
+ * \param data The data structure that is to be populated
+ * \param data_size The size of the structure that is to be populated
+ * \return 0 on success
+ */
+CK_RV hal_get_info(uint32_t command_id, void *data, int32_t data_size);
+
 #endif // HAL_H
 
