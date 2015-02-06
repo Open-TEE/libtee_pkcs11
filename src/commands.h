@@ -47,5 +47,9 @@
 #define TEE_VERIFY_UPDATE	0x00000013
 #define	TEE_VERIFY_FINAL	0x00000014
 
+/* Functions for Slot control */
+#define TEE_GET_SLOT_INFO	0x00000015
+#define TEE_GET_TOKEN_INFO	0x00000016
+
 #endif // COMMANDS_H
 

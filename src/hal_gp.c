@@ -120,3 +120,10 @@ CK_RV hal_crypto_final(uint32_t command_id,
 
 	return CKR_FUNCTION_NOT_SUPPORTED;
 }
+
+CK_RV hal_get_info(uint32_t command_id, void *data, int32_t data_size)
+{
+	command_id = command_id;
+	data = data;
+	data_size = data_size;
+}

@@ -23,6 +23,8 @@
 #ifndef _PKCS11T_H_
 #define _PKCS11T_H_ 1
 
+#include <inttypes.h>
+
 #define CRYPTOKI_VERSION_MAJOR 2
 #define CRYPTOKI_VERSION_MINOR 20
 #define CRYPTOKI_VERSION_AMENDMENT 3
@@ -52,12 +54,12 @@ typedef CK_BYTE           CK_UTF8CHAR;
 /* a BYTE-sized Boolean flag */
 typedef CK_BYTE           CK_BBOOL;
 
-/* an unsigned value, at least 32 bits long */
-typedef unsigned long int CK_ULONG;
+/* an unsigned value, at least 32 bits long  (forced to 32 bits for chaabi)*/
+typedef uint32_t	  CK_ULONG;
 
 /* a signed value, the same size as a CK_ULONG */
 /* CK_LONG is new for v2.0 */
-typedef long int          CK_LONG;
+typedef int32_t          CK_LONG;
 
 /* at least 32 bits; each bit is a Boolean flag */
 typedef CK_ULONG          CK_FLAGS;
