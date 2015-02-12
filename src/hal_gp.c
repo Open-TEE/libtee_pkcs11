@@ -260,3 +260,86 @@ out:
 
 	return ret;
 }
+
+CK_RV hal_create_object(CK_SESSION_HANDLE hSession,
+			CK_ATTRIBUTE_PTR pTemplate,
+			CK_ULONG ulCount,
+			CK_OBJECT_HANDLE_PTR phObject)
+{
+	TEEC_SharedMemory in_shm;
+	TEEC_Operation operation = {0};
+	uint32_t i = 0, pos = 0;
+	TEEC_Result teec_ret;
+
+	/* Object handle is valid if this function succeeds */
+	*phObject = CKR_OBJECT_HANDLE_INVALID;
+
+	/* Calculating the size that is needed for serializing tempalte it to into on buffer */
+	for (i = 0; i < ulCount; i++)
+		in_shm.size += pTemplate[i].ulValueLen;
+
+	in_shm.size += ulCount * sizeof(pTemplate->type);
+	in_shm.size += ulCount * sizeof(pTemplate->ulValueLen);
+
+	/* Allocated buffer and register it as shared memory. It is used for trasfering template
+	 * into TEE environment */
+	in_shm.flags = TEEC_MEM_INPUT;
+	in_shm.buffer = calloc(1, in_shm.size);
+	if (!in_shm.buffer)
+		return CKR_HOST_MEMORY;
+
+	if (TEEC_RegisterSharedMemory(g_tee_context, &in_shm) != CKR_OK) {
+		free(in_shm.buffer);
+		return CKR_GENERAL_ERROR;
+	}
+
+	/* Serialize template inot buffer. Schema:
+	 * |-------------------------------------------------------------
+	 * | Attribute type,	| ulValueLen,		| pValue	|
+	 * | sizeof (type)	| sizeog (ulValueLen)	| ulValueLen	|
+	 * |-------------------------------------------------------------
+	 * First line is what and second line is telling its size. */
+
+	for (i = 0; i < ulCount; ++i) {
+
+		/* Attribute type */
+		memcpy((uint8_t *)in_shm.buffer + pos,
+		       &pTemplate[i].type, sizeof(pTemplate[i].type));
+		pos += sizeof(pTemplate->type);
+
+		/* ulValueLen */
+		memcpy((uint8_t *)in_shm.buffer + pos,
+		       &pTemplate->ulValueLen, sizeof(pTemplate[i].ulValueLen));
+		pos += sizeof(pTemplate->ulValueLen);
+
+		/* pValue */
+		memcpy((uint8_t *)in_shm.buffer + pos,
+		       pTemplate[i].pValue, pTemplate[i].ulValueLen);
+		pos += pTemplate->ulValueLen;
+	}
+
+	/* Fill operation */
+	operation.params[0].memref.parent = &in_shm;
+	operation.params[2].value.a = in_shm.size;
+
+	/* Fill nonce into message. Nonce is binding object to session */
+	//TODO: operation->params[3].value = library none. Remember change to paramType! */
+
+	operation.paramTypes = TEEC_PARAM_TYPES(TEEC_MEMREF_WHOLE, TEEC_VALUE_OUTPUT,
+						TEEC_VALUE_INOUT, TEEC_VALUE_INOUT);
+
+	/* Hand over execution to TEE */
+	teec_ret = TEEC_InvokeCommand(hSession, TEE_CREATE_OBJECT, &operation, NULL);
+
+	/* Shared momory was INPUT and it have served its purpose */
+	TEEC_ReleaseSharedMemory(&in_shm);
+	free(in_shm.buffer);
+
+	/* Something went wrong and problem is origin from frame work */
+	if (teec_ret != TEEC_SUCCESS)
+		return CKR_GENERAL_ERROR;
+
+	/* Extract return values from operation and return */
+	*phObject = operation.params[1].value.a;
+	return operation.params[3].value.a;
+}
