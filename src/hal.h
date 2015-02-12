@@ -126,5 +126,20 @@ CK_RV hal_get_info(uint32_t command_id, void *data, uint32_t *data_size);
  */
 bool is_lib_initialized();
 
+/*!
+ * \brief hal_create_object
+ * Creates an object inside TEE
+ * \param hSession
+ * \param pTemplate
+ * \param ulCount
+ * \param phObject
+ * \return
+ */
+CK_RV hal_create_object(CK_SESSION_HANDLE hSession,
+			CK_ATTRIBUTE_PTR pTemplate,
+			CK_ULONG ulCount,
+			CK_OBJECT_HANDLE_PTR phObject);
+
+
 #endif // HAL_H
 

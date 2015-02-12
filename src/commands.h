@@ -65,7 +65,11 @@ struct mechanisms {
 #define TEE_GET_MECHANISM_LIST  0x00000018
 
 /* Defines control sessions that are used to pass control commands, NOT create pkcs#11 sessions */
-#define TEE_CONTROL_SESSION 0x000000FF
+#define TEE_CONTROL_SESSION     0x000000FF
+
+/* Object management functions */
+#define TEE_CREATE_OBJECT	0x000000A1
+
 
 #endif // COMMANDS_H
 
