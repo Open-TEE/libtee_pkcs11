@@ -22,6 +22,9 @@
 #include "cryptoki.h"
 #include "commands.h"
 
+CK_RV hal_close_session(CK_SESSION_HANDLE hSession);
+CK_RV hal_open_session(CK_FLAGS flags, CK_SESSION_HANDLE_PTR phSession);
+
 /*!
  * \brief hal_initialize_context
  * Create a context towards the TEE, this is generally achieved by opening the TEE device
@@ -54,9 +57,7 @@ CK_RV hal_init_token(CK_UTF8CHAR_PTR pPin, CK_ULONG ulPinLen, CK_UTF8CHAR_PTR pL
  * \param hKey
  * \return
  */
-CK_RV hal_crypto_init(uint32_t command_id,
-		      CK_SESSION_HANDLE hSession,
-		      CK_MECHANISM_PTR pMechanism,
+CK_RV hal_crypto_init(uint32_t command_id, CK_SESSION_HANDLE hSession, CK_MECHANISM_PTR pMechanism,
 		      CK_OBJECT_HANDLE hKey);
 
 /*!
@@ -70,12 +71,8 @@ CK_RV hal_crypto_init(uint32_t command_id,
  * \param dst_len is dst buffer length in bytes
  * \return
  */
-CK_RV hal_crypto(uint32_t command_id,
-		 CK_SESSION_HANDLE hSession,
-		 CK_BYTE_PTR src,
-		 CK_ULONG src_len,
-		 CK_BYTE_PTR dst,
-		 CK_ULONG_PTR dst_len);
+CK_RV hal_crypto(uint32_t command_id, CK_SESSION_HANDLE hSession, CK_BYTE_PTR src, CK_ULONG src_len,
+		 CK_BYTE_PTR dst, CK_ULONG_PTR dst_len);
 
 /*!
  * \brief hal_crypto_update
@@ -88,12 +85,8 @@ CK_RV hal_crypto(uint32_t command_id,
  * \param dst_len is dst buffer length in bytes
  * \return
  */
-CK_RV hal_crypto_update(uint32_t command_id,
-			CK_SESSION_HANDLE hSession,
-			CK_BYTE_PTR src,
-			CK_ULONG src_len,
-			CK_BYTE_PTR dst,
-			CK_ULONG_PTR dst_len);
+CK_RV hal_crypto_update(uint32_t command_id, CK_SESSION_HANDLE hSession, CK_BYTE_PTR src,
+			CK_ULONG src_len, CK_BYTE_PTR dst, CK_ULONG_PTR dst_len);
 
 /*!
  * \brief hal_crypto_final
@@ -104,10 +97,8 @@ CK_RV hal_crypto_update(uint32_t command_id,
  * \param dst_len is dst buffer length in bytes
  * \return
  */
-CK_RV hal_crypto_final(uint32_t command_id,
-			CK_SESSION_HANDLE hSession,
-			CK_BYTE_PTR dst,
-			CK_ULONG_PTR dst_len);
+CK_RV hal_crypto_final(uint32_t command_id, CK_SESSION_HANDLE hSession, CK_BYTE_PTR dst,
+		       CK_ULONG_PTR dst_len);
 
 /*!
  * \brief hal_get_info
@@ -127,4 +118,3 @@ CK_RV hal_get_info(uint32_t command_id, void *data, uint32_t *data_size);
 bool is_lib_initialized();
 
 #endif // HAL_H
-

@@ -20,6 +20,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 /*!
  * \brief g_tee_context
@@ -34,12 +35,74 @@ TEEC_Context *g_tee_context;
 TEEC_Session *g_control_session;
 
 static const TEEC_UUID uuid = {
-	0x12345678, 0x8765, 0x4321, { 'P', 'K', 'C', 'S', '1', '1', 'T', 'A'}
+	0x12345678, 0x8765, 0x4321, { 'P', 'K', 'C', 'S', '1', '1', 'T', 'A' }
 };
 
 bool is_lib_initialized()
 {
 	return g_tee_context != NULL;
+}
+
+CK_RV hal_open_session(CK_FLAGS flags, CK_SESSION_HANDLE_PTR phSession)
+{
+	int ret = CKR_OK;
+	uint32_t return_origin;
+	TEEC_Operation operation;
+
+	if (!g_tee_context || !g_tee_context->imp)
+		return CKR_CRYPTOKI_NOT_INITIALIZED;
+
+	memset(&operation, 0, sizeof(TEEC_Operation));
+	memcpy(&operation.params[3].value.a, g_tee_context->imp, sizeof(TEEC_Value));
+	operation.paramTypes =
+	    TEEC_PARAM_TYPES(TEEC_VALUE_OUTPUT, TEEC_NONE, TEEC_NONE, TEEC_VALUE_INPUT);
+
+	operation.params[0].value.a = flags;
+
+	ret = TEEC_InvokeCommand(g_control_session, TEE_SESSION_CREATE, &operation, &return_origin);
+
+	if (ret != TEEC_SUCCESS) {
+		ret = CKR_GENERAL_ERROR;
+		goto err_out;
+	}
+
+	*phSession = operation.params[0].value.a;
+	return TEE_SUCCESS;
+
+err_out:
+	return ret;
+}
+
+CK_RV hal_close_session(CK_SESSION_HANDLE hSession)
+{
+	int ret = CKR_OK;
+	uint32_t return_origin;
+	TEEC_Operation operation;
+
+	if (!g_tee_context)
+		return CKR_CRYPTOKI_NOT_INITIALIZED;
+
+	if (!g_tee_context->imp)
+		return CKR_CRYPTOKI_NOT_INITIALIZED;
+
+	memset(&operation, 0, sizeof(TEEC_Operation));
+	memcpy(&operation.params[3].value.a, g_tee_context->imp, sizeof(TEEC_Value));
+	operation.paramTypes =
+	    TEEC_PARAM_TYPES(TEEC_VALUE_INPUT, TEEC_NONE, TEEC_NONE, TEEC_VALUE_INPUT);
+
+	operation.params[0].value.a = hSession;
+
+	ret = TEEC_InvokeCommand(g_control_session, TEE_SESSION_CLOSE, &operation, &return_origin);
+
+	if (ret != TEEC_SUCCESS) {
+		ret = CKR_GENERAL_ERROR;
+		goto err_out;
+	}
+
+	return TEE_SUCCESS;
+
+err_out:
+	return ret;
 }
 
 CK_RV hal_initialize_context()
@@ -65,21 +128,24 @@ CK_RV hal_initialize_context()
 
 	ret = TEEC_InitializeContext(NULL, g_tee_context);
 	if (ret != TEEC_SUCCESS) {
-		ret =  CKR_GENERAL_ERROR;
+		ret = CKR_GENERAL_ERROR;
 		goto err_out;
 	}
 
 	/* open the command and control session */
-	operation.paramTypes = TEEC_PARAM_TYPES(TEEC_VALUE_INPUT, TEEC_NONE,
-						TEEC_NONE, TEEC_NONE);
+	operation.paramTypes =
+	    TEEC_PARAM_TYPES(TEEC_VALUE_INPUT, TEEC_NONE, TEEC_NONE, TEEC_VALUE_OUTPUT);
 	operation.params[0].value.a = TEE_CONTROL_SESSION;
 
-	ret = TEEC_OpenSession(g_tee_context, g_control_session, &uuid, TEEC_LOGIN_PUBLIC,
-			       NULL, &operation, &return_origin);
+	ret = TEEC_OpenSession(g_tee_context, g_control_session, &uuid, TEEC_LOGIN_PUBLIC, NULL,
+			       &operation, &return_origin);
 	if (ret != TEEC_SUCCESS) {
-		ret =  CKR_GENERAL_ERROR;
+		ret = CKR_GENERAL_ERROR;
 		goto err_out;
 	}
+
+	g_tee_context->imp = calloc(1, sizeof(TEEC_Value));
+	memcpy(g_tee_context->imp, &operation.params[3].value.a, sizeof(TEEC_Value));
 
 	return ret;
 
@@ -96,6 +162,16 @@ CK_RV hal_finalize_context()
 {
 	if (g_tee_context == NULL || g_control_session == NULL)
 		return CKR_OK; /* nothing to be done */
+
+	TEEC_Operation operation;
+	uint32_t return_origin = 0;
+
+	memset(&operation, 0, sizeof(TEEC_Operation));
+	memcpy(&operation.params[3].value.a, g_tee_context->imp, sizeof(TEEC_Value));
+	operation.paramTypes = TEEC_PARAM_TYPES(TEEC_NONE, TEEC_NONE, TEEC_NONE, TEEC_VALUE_INPUT);
+
+	(void)TEEC_InvokeCommand(g_control_session, TEE_APPLICATION_CLOSE, &operation,
+				 &return_origin);
 
 	TEEC_CloseSession(g_control_session);
 	TEEC_FinalizeContext(g_tee_context);
@@ -136,8 +212,8 @@ CK_RV hal_init_token(CK_UTF8CHAR_PTR pPin, CK_ULONG ulPinLen, CK_UTF8CHAR_PTR pL
 	if (ret != TEE_SUCCESS)
 		goto out2;
 
-	operation.paramTypes = TEEC_PARAM_TYPES(TEEC_MEMREF_WHOLE, TEEC_VALUE_INPUT,
-						TEEC_MEMREF_WHOLE, TEEC_NONE);
+	operation.paramTypes =
+	    TEEC_PARAM_TYPES(TEEC_MEMREF_WHOLE, TEEC_VALUE_INPUT, TEEC_MEMREF_WHOLE, TEEC_NONE);
 
 	operation.params[0].memref.parent = &pin_mem;
 	operation.params[1].value.a = ulPinLen;
@@ -155,9 +231,7 @@ out1:
 	return ret;
 }
 
-CK_RV hal_crypto_init(uint32_t command_id,
-		      CK_SESSION_HANDLE hSession,
-		      CK_MECHANISM_PTR pMechanism,
+CK_RV hal_crypto_init(uint32_t command_id, CK_SESSION_HANDLE hSession, CK_MECHANISM_PTR pMechanism,
 		      CK_OBJECT_HANDLE hKey)
 {
 	command_id = command_id;
@@ -170,12 +244,8 @@ CK_RV hal_crypto_init(uint32_t command_id,
 	return CKR_FUNCTION_NOT_SUPPORTED;
 }
 
-CK_RV hal_crypto(uint32_t command_id,
-		 CK_SESSION_HANDLE hSession,
-		 CK_BYTE_PTR src,
-		 CK_ULONG src_len,
-		 CK_BYTE_PTR dst,
-		 CK_ULONG_PTR dst_len)
+CK_RV hal_crypto(uint32_t command_id, CK_SESSION_HANDLE hSession, CK_BYTE_PTR src, CK_ULONG src_len,
+		 CK_BYTE_PTR dst, CK_ULONG_PTR dst_len)
 {
 	command_id = command_id;
 	hSession = hSession;
@@ -189,12 +259,8 @@ CK_RV hal_crypto(uint32_t command_id,
 	return CKR_FUNCTION_NOT_SUPPORTED;
 }
 
-CK_RV hal_crypto_update(uint32_t command_id,
-			CK_SESSION_HANDLE hSession,
-			CK_BYTE_PTR src,
-			CK_ULONG src_len,
-			CK_BYTE_PTR dst,
-			CK_ULONG_PTR dst_len)
+CK_RV hal_crypto_update(uint32_t command_id, CK_SESSION_HANDLE hSession, CK_BYTE_PTR src,
+			CK_ULONG src_len, CK_BYTE_PTR dst, CK_ULONG_PTR dst_len)
 {
 	command_id = command_id;
 	hSession = hSession;
@@ -208,10 +274,8 @@ CK_RV hal_crypto_update(uint32_t command_id,
 	return CKR_FUNCTION_NOT_SUPPORTED;
 }
 
-CK_RV hal_crypto_final(uint32_t command_id,
-			CK_SESSION_HANDLE hSession,
-			CK_BYTE_PTR dst,
-			CK_ULONG_PTR dst_len)
+CK_RV hal_crypto_final(uint32_t command_id, CK_SESSION_HANDLE hSession, CK_BYTE_PTR dst,
+		       CK_ULONG_PTR dst_len)
 {
 	command_id = command_id;
 	hSession = hSession;
@@ -241,8 +305,8 @@ CK_RV hal_get_info(uint32_t command_id, void *data, uint32_t *data_size)
 	if (ret != TEE_SUCCESS)
 		goto out;
 
-	operation.paramTypes = TEEC_PARAM_TYPES(TEEC_MEMREF_WHOLE, TEEC_VALUE_INOUT,
-						TEEC_NONE, TEEC_NONE);
+	operation.paramTypes =
+	    TEEC_PARAM_TYPES(TEEC_MEMREF_WHOLE, TEEC_VALUE_INOUT, TEEC_NONE, TEEC_NONE);
 
 	operation.params[0].memref.parent = &data_mem;
 	operation.params[1].value.a = *data_size;
