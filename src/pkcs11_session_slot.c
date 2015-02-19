@@ -238,11 +238,7 @@ CK_RV C_InitToken(CK_SLOT_ID slotID,
 
 CK_RV C_InitPIN(CK_SESSION_HANDLE hSession, CK_UTF8CHAR_PTR pPin, CK_ULONG ulPinLen)
 {
-	hSession = hSession;
-	pPin = pPin;
-	ulPinLen = ulPinLen;
-
-	return CKR_FUNCTION_NOT_SUPPORTED;
+	return hal_init_pin(hSession, pPin, ulPinLen);
 }
 
 CK_RV C_SetPIN(CK_SESSION_HANDLE hSession,
@@ -251,12 +247,7 @@ CK_RV C_SetPIN(CK_SESSION_HANDLE hSession,
 	       CK_UTF8CHAR_PTR pNewPin,
 	       CK_ULONG ulNewLen)
 {
-	hSession = hSession;
-	pOldPin = pOldPin;
-	ulOldLen = ulOldLen;
-	pNewPin = pNewPin;
-	ulNewLen = ulNewLen;
-	return CKR_FUNCTION_NOT_SUPPORTED;
+	return hal_set_pin(hSession, pOldPin, ulOldLen, pNewPin, ulNewLen);
 }
 
 /*
@@ -331,15 +322,13 @@ CK_RV C_Login(CK_SESSION_HANDLE hSession,
 	      CK_UTF8CHAR_PTR pPin,
 	      CK_ULONG ulPinLen)
 {
-	hSession = hSession;
-	userType = userType;
-	pPin = pPin;
-	ulPinLen = ulPinLen;
-	return CKR_FUNCTION_NOT_SUPPORTED;
+	if (pPin == NULL)
+		return CKR_ARGUMENTS_BAD;
+
+	return hal_login(hSession, userType, pPin, ulPinLen);
 }
 
 CK_RV C_Logout(CK_SESSION_HANDLE hSession)
 {
-	hSession = hSession;
-	return CKR_FUNCTION_NOT_SUPPORTED;
+	return hal_logout(hSession);
 }
