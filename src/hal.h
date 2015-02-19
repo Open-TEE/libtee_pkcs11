@@ -121,6 +121,28 @@ CK_RV hal_close_all_session();
 CK_RV hal_get_session_info(CK_SESSION_HANDLE hSession, CK_SESSION_INFO_PTR pInfo);
 
 /*!
+ * \brief hal_login
+ * Log the application into the token
+ * \param hSession The session to login with
+ * \param userType The user mode to login (SO or USER)
+ * \param pPin The pin code for the user
+ * \param ulPinLen The length of the pin
+ * \return 0 on success
+ */
+CK_RV hal_login(CK_SESSION_HANDLE hSession,
+		CK_USER_TYPE userType,
+		CK_UTF8CHAR_PTR pPin,
+		CK_ULONG ulPinLen);
+
+/*!
+ * \brief hal_logout
+ * Log the application out of the token
+ * \param hSession The session that is open
+ * \return 0 on success
+ */
+CK_RV hal_logout(CK_SESSION_HANDLE hSession);
+
+/*!
  * \brief is_lib_initialized
  * Determine if the library has been properly initialized
  * \return true on success
