@@ -331,15 +331,13 @@ CK_RV C_Login(CK_SESSION_HANDLE hSession,
 	      CK_UTF8CHAR_PTR pPin,
 	      CK_ULONG ulPinLen)
 {
-	hSession = hSession;
-	userType = userType;
-	pPin = pPin;
-	ulPinLen = ulPinLen;
-	return CKR_FUNCTION_NOT_SUPPORTED;
+	if (pPin == NULL)
+		return CKR_ARGUMENTS_BAD;
+
+	return hal_login(hSession, userType, pPin, ulPinLen);
 }
 
 CK_RV C_Logout(CK_SESSION_HANDLE hSession)
 {
-	hSession = hSession;
-	return CKR_FUNCTION_NOT_SUPPORTED;
+	return hal_logout(hSession);
 }

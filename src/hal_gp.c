@@ -39,6 +39,24 @@ static const TEEC_UUID uuid = {
 	0x12345678, 0x8765, 0x4321, { 'P', 'K', 'C', 'S', '1', '1', 'T', 'A'}
 };
 
+static CK_RV send_single_value(uint32_t param, uint32_t command_id)
+{
+	TEEC_Operation operation;
+	uint32_t return_origin;
+
+	if (g_tee_context == NULL)
+		return CKR_CRYPTOKI_NOT_INITIALIZED;
+
+	memset(&operation, 0, sizeof(TEEC_Operation));
+
+	operation.paramTypes = TEEC_PARAM_TYPES(TEEC_VALUE_INPUT, TEEC_NONE,
+						TEEC_NONE, TEEC_NONE);
+	operation.params[0].value.a = param;
+
+	return TEEC_InvokeCommand(g_control_session, command_id, &operation,
+				  &return_origin);
+}
+
 bool is_lib_initialized()
 {
 	return g_tee_context != NULL;
@@ -280,9 +298,6 @@ CK_RV hal_open_session(CK_FLAGS flags, CK_SESSION_HANDLE_PTR phSession)
 
 	memset(&operation, 0, sizeof(TEEC_Operation));
 
-	if (g_tee_context == NULL)
-		return CKR_CRYPTOKI_NOT_INITIALIZED;
-
 	operation.paramTypes = TEEC_PARAM_TYPES(TEEC_VALUE_INPUT, TEEC_VALUE_OUTPUT,
 						TEEC_NONE, TEEC_NONE);
 	operation.params[0].value.a = flags;
@@ -299,23 +314,7 @@ CK_RV hal_open_session(CK_FLAGS flags, CK_SESSION_HANDLE_PTR phSession)
 
 CK_RV hal_close_session(CK_SESSION_HANDLE hSession)
 {
-	TEEC_Operation operation;
-	uint32_t return_origin;
-
-	if (g_tee_context == NULL)
-		return CKR_CRYPTOKI_NOT_INITIALIZED;
-
-	memset(&operation, 0, sizeof(TEEC_Operation));
-
-	if (g_tee_context == NULL)
-		return CKR_CRYPTOKI_NOT_INITIALIZED;
-
-	operation.paramTypes = TEEC_PARAM_TYPES(TEEC_VALUE_INPUT, TEEC_NONE,
-						TEEC_NONE, TEEC_NONE);
-	operation.params[0].value.a = hSession;
-
-	return TEEC_InvokeCommand(g_control_session, TEE_CLOSE_PKCS11_SESSION, &operation,
-				  &return_origin);
+	return send_single_value(hSession, TEE_CLOSE_PKCS11_SESSION);
 }
 
 CK_RV hal_close_all_session()
@@ -452,4 +451,54 @@ CK_RV hal_create_object(CK_SESSION_HANDLE hSession,
 	/* Extract return values from operation and return */
 	*phObject = operation.params[1].value.a;
 	return operation.params[1].value.b;
+}
+
+CK_RV hal_login(CK_SESSION_HANDLE hSession,
+		CK_USER_TYPE userType,
+		CK_UTF8CHAR_PTR pPin,
+		CK_ULONG ulPinLen)
+{
+	TEEC_Operation operation;
+	TEEC_SharedMemory data_mem;
+	uint32_t return_origin;
+	CK_RV ret = 0;
+
+	if (pPin == NULL)
+		return CKR_ARGUMENTS_BAD;
+
+	if (g_tee_context == NULL)
+		return CKR_CRYPTOKI_NOT_INITIALIZED;
+
+	memset(&operation, 0, sizeof(TEEC_Operation));
+	memset(&data_mem, 0, sizeof(TEEC_SharedMemory));
+
+	data_mem.buffer = pPin;
+	data_mem.size = ulPinLen;
+	data_mem.flags = TEEC_MEM_INPUT | TEEC_MEM_OUTPUT;
+
+	ret = TEEC_RegisterSharedMemory(g_tee_context, &data_mem);
+	if (ret != TEE_SUCCESS)
+		goto out;
+
+	operation.paramTypes = TEEC_PARAM_TYPES(TEEC_MEMREF_WHOLE, TEEC_VALUE_INPUT,
+						TEEC_VALUE_INPUT, TEEC_NONE);
+
+	operation.params[0].memref.parent = &data_mem;
+	operation.params[1].value.a = ulPinLen;
+	operation.params[1].value.b = userType;
+	operation.params[2].value.a = hSession;
+
+	ret = TEEC_InvokeCommand(g_control_session, TEE_LOGIN_SESSION,
+				 &operation, &return_origin);
+
+out:
+	TEEC_ReleaseSharedMemory(&data_mem);
+
+	return ret;
+
+}
+
+CK_RV hal_logout(CK_SESSION_HANDLE hSession)
+{
+	return send_single_value(hSession, TEE_LOGOUT_SESSION);
 }
