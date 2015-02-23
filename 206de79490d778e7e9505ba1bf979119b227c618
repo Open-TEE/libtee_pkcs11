@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1969be_dc1b87c8",
+        "filename": "src/hal_gp.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1000797
+      },
+      "writtenOn": "2015-02-23T10:23:38Z",
+      "side": 1,
+      "message": "I know that the values are tested in the higher level function and the hal_ functions should not be called directly, but *maybe* we should also check dst for NULL (just to be sure)",
+      "range": {
+        "startLine": 330,
+        "startChar": 1,
+        "endLine": 330,
+        "endChar": 7
+      },
+      "revId": "206de79490d778e7e9505ba1bf979119b227c618",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
