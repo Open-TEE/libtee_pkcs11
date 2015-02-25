@@ -95,7 +95,7 @@ bool is_lib_initialized()
 
 CK_RV hal_initialize_context()
 {
-	int ret = CKR_OK;
+	CK_RV ret = CKR_OK;
 	uint32_t return_origin;
 	TEEC_Operation operation;
 
@@ -125,7 +125,7 @@ CK_RV hal_initialize_context()
 						TEEC_NONE, TEEC_NONE);
 
 	ret = TEEC_OpenSession(g_tee_context, g_control_session, &uuid, TEEC_LOGIN_PUBLIC,
-			       NULL, &operation, &return_origin);
+						   NULL, &operation, &return_origin);
 	if (ret != TEEC_SUCCESS) {
 		ret =  CKR_GENERAL_ERROR;
 		goto err_out;
@@ -164,7 +164,7 @@ CK_RV hal_init_token(CK_UTF8CHAR_PTR pPin, CK_ULONG ulPinLen, CK_UTF8CHAR_PTR pL
 	TEEC_SharedMemory pin_mem;
 	TEEC_SharedMemory label_mem;
 	uint32_t return_origin;
-	CK_RV ret = 0;
+	CK_RV ret = CKR_OK;
 
 	if (g_tee_context == NULL)
 		return CKR_CRYPTOKI_NOT_INITIALIZED;
@@ -197,7 +197,7 @@ CK_RV hal_init_token(CK_UTF8CHAR_PTR pPin, CK_ULONG ulPinLen, CK_UTF8CHAR_PTR pL
 	operation.params[2].memref.parent = &label_mem;
 
 	ret = TEEC_InvokeCommand(g_control_session, TEE_INIT_TOKEN, &operation, &return_origin);
-	if (ret != 0)
+	if (ret != TEEC_SUCCESS)
 		ret = CKR_GENERAL_ERROR;
 
 out2:
@@ -215,8 +215,9 @@ CK_RV hal_crypto_init(uint32_t command_id,
 {
 	TEEC_SharedMemory in_shm = {0};
 	TEEC_Operation operation = {0};
-	TEEC_Result teec_ret;
+	TEEC_Result teec_ret = TEEC_SUCCESS;
 	uint32_t pos = 0;
+	uint32_t return_origin = 0;
 
 	/* Mechanism is copied to memref. Calculate needed size and alloc buffer */
 	in_shm.size = sizeof(pMechanism->mechanism) + pMechanism->ulParameterLen;
@@ -260,7 +261,8 @@ CK_RV hal_crypto_init(uint32_t command_id,
 						TEEC_VALUE_INPUT, TEEC_VALUE_INOUT);
 
 	/* Hand over execution to TEE */
-	teec_ret = TEEC_InvokeCommand(g_control_session, TEE_CRYPTO_INIT, &operation, NULL);
+	teec_ret = TEEC_InvokeCommand(g_control_session, TEE_CRYPTO_INIT,
+								  &operation, &return_origin);
 
 	/* Shared momory was INPUT and it have served its purpose */
 	TEEC_ReleaseSharedMemory(&in_shm);
@@ -283,6 +285,7 @@ CK_RV hal_crypto(uint32_t command_id,
 {
 	TEEC_SharedMemory shm = {0};
 	TEEC_Operation operation = {0};
+	uint32_t return_origin = 0;
 
 	/* Although both size are passed to TEE environment, only one SHM is registered.
 	 * SRC is copied to buffer and then it is replaced with DST in TEE */
@@ -319,7 +322,8 @@ CK_RV hal_crypto(uint32_t command_id,
 						TEEC_VALUE_INOUT, TEEC_VALUE_INOUT);
 
 	/* Hand over execution to TEE */
-	if (TEEC_InvokeCommand(g_control_session, TEE_CRYPTO, &operation, NULL) != TEEC_SUCCESS) {
+	if (TEEC_InvokeCommand(g_control_session, TEE_CRYPTO, &operation,
+						   &return_origin) != TEEC_SUCCESS) {
 		TEEC_ReleaseSharedMemory(&shm);
 		free(shm.buffer);
 		return CKR_GENERAL_ERROR;
@@ -341,8 +345,8 @@ CK_RV hal_get_info(uint32_t command_id, void *data, uint32_t *data_size)
 {
 	TEEC_Operation operation;
 	TEEC_SharedMemory data_mem;
-	uint32_t return_origin;
-	CK_RV ret = 0;
+	uint32_t return_origin = 0;
+	CK_RV ret = CKR_OK;
 
 	if (g_tee_context == NULL)
 		return CKR_CRYPTOKI_NOT_INITIALIZED;
@@ -383,28 +387,28 @@ CK_RV hal_open_session(CK_FLAGS flags, CK_SESSION_HANDLE_PTR phSession)
 {
 	TEEC_Operation operation;
 	uint32_t return_origin;
-	CK_RV ret = 0;
+	CK_RV ret = CKR_OK;
 
 	if (g_tee_context == NULL)
 		return CKR_CRYPTOKI_NOT_INITIALIZED;
+
+	if (phSession == NULL)
+		return CKR_ARGUMENTS_BAD;
 
 	memset(&operation, 0, sizeof(TEEC_Operation));
-
-	if (g_tee_context == NULL)
-		return CKR_CRYPTOKI_NOT_INITIALIZED;
 
 	operation.paramTypes = TEEC_PARAM_TYPES(TEEC_VALUE_INPUT, TEEC_VALUE_OUTPUT,
 						TEEC_NONE, TEEC_NONE);
 	operation.params[0].value.a = flags;
 
 	ret = TEEC_InvokeCommand(g_control_session, TEE_CREATE_PKCS11_SESSION, &operation,
-				 &return_origin);
-	if (ret != 0)
+							 &return_origin);
+	if (ret != TEEC_SUCCESS)
 		ret = CKR_GENERAL_ERROR;
 
 	*phSession = operation.params[1].value.a;
 
-	return CKR_OK;
+	return ret;
 }
 
 CK_RV hal_close_session(CK_SESSION_HANDLE hSession)
@@ -417,15 +421,12 @@ CK_RV hal_close_session(CK_SESSION_HANDLE hSession)
 
 	memset(&operation, 0, sizeof(TEEC_Operation));
 
-	if (g_tee_context == NULL)
-		return CKR_CRYPTOKI_NOT_INITIALIZED;
-
 	operation.paramTypes = TEEC_PARAM_TYPES(TEEC_VALUE_INPUT, TEEC_NONE,
 						TEEC_NONE, TEEC_NONE);
 	operation.params[0].value.a = hSession;
 
 	return TEEC_InvokeCommand(g_control_session, TEE_CLOSE_PKCS11_SESSION, &operation,
-				  &return_origin);
+							  &return_origin);
 }
 
 CK_RV hal_close_all_session()
@@ -444,7 +445,7 @@ CK_RV hal_get_session_info(CK_SESSION_HANDLE hSession, CK_SESSION_INFO_PTR pInfo
 	TEEC_Operation operation;
 	TEEC_SharedMemory data_mem;
 	uint32_t return_origin;
-	CK_RV ret = 0;
+	CK_RV ret = CKR_OK;
 
 	if (pInfo == NULL)
 		return CKR_ARGUMENTS_BAD;
@@ -470,7 +471,7 @@ CK_RV hal_get_session_info(CK_SESSION_HANDLE hSession, CK_SESSION_INFO_PTR pInfo
 	operation.params[1].value.a = hSession;
 
 	ret = TEEC_InvokeCommand(g_control_session, TEE_GET_SESSION_INFO,
-				 &operation, &return_origin);
+							 &operation, &return_origin);
 
 out:
 	TEEC_ReleaseSharedMemory(&data_mem);
@@ -485,8 +486,9 @@ CK_RV hal_create_object(CK_SESSION_HANDLE hSession,
 {
 	TEEC_SharedMemory in_shm = {0};
 	TEEC_Operation operation = {0};
-	TEEC_Result teec_ret;
-	CK_RV ck_rv;
+	TEEC_Result teec_ret = TEEC_SUCCESS;
+	CK_RV ck_rv = CKR_OK;
+	uint32_t return_origin = 0;
 
 	/* Object handle is valid if this function succeeds */
 	*phObject = CKR_OBJECT_HANDLE_INVALID;
@@ -512,7 +514,8 @@ CK_RV hal_create_object(CK_SESSION_HANDLE hSession,
 						TEEC_VALUE_INOUT, TEEC_VALUE_INPUT);
 
 	/* Hand over execution to TEE */
-	teec_ret = TEEC_InvokeCommand(g_control_session, TEE_CREATE_OBJECT, &operation, NULL);
+	teec_ret = TEEC_InvokeCommand(g_control_session, TEE_CREATE_OBJECT,
+								  &operation, &return_origin);
 
 	/* Shared momory was INPUT and it have served its purpose */
 	TEEC_ReleaseSharedMemory(&in_shm);
@@ -531,6 +534,7 @@ CK_RV hal_destroy_object(CK_SESSION_HANDLE hSession,
 			 CK_OBJECT_HANDLE hObject)
 {
 	TEEC_Operation operation = {0};
+	uint32_t return_origin = 0;
 
 	/* Fill in operation. Session and object could be passed in one value parameter, but
 	 * they are passed in two to be consistent with parameter passing */
@@ -541,7 +545,7 @@ CK_RV hal_destroy_object(CK_SESSION_HANDLE hSession,
 
 	/* Hand over execution to TEE */
 	if (TEEC_InvokeCommand(g_control_session, TEE_DESTROY_OBJECT,
-			       &operation, NULL) != TEEC_SUCCESS)
+						   &operation, &return_origin) != TEEC_SUCCESS)
 		return CKR_GENERAL_ERROR;
 
 	/* Extract return values from operation and return */
