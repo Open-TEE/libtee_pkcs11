@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1969be_0372bae4",
+        "filename": "src/hal_gp.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-03-03T23:51:53Z",
+      "side": 1,
+      "message": "can be null -\u003e obsolite",
+      "revId": "53798e48ac82b429a4f8898347724c6c3846915d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_23a1b647",
+        "filename": "src/hal_gp.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-03-03T23:51:53Z",
+      "side": 1,
+      "message": "bool is_lib_initialized();",
+      "revId": "53798e48ac82b429a4f8898347724c6c3846915d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_03a47a55",
+        "filename": "src/hal_gp.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-03-03T23:51:53Z",
+      "side": 1,
+      "message": "TEEC_Operation operation \u003d {0}; ?",
+      "revId": "53798e48ac82b429a4f8898347724c6c3846915d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_e3bdde69",
+        "filename": "src/hal_gp.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-03-03T23:51:53Z",
+      "side": 1,
+      "message": "Double check. This is done in slot.c",
+      "revId": "53798e48ac82b429a4f8898347724c6c3846915d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_4385d2ab",
+        "filename": "src/hal_gp.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-03-03T23:51:53Z",
+      "side": 1,
+      "message": "bool is_lib_initialized();",
+      "revId": "53798e48ac82b429a4f8898347724c6c3846915d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_c3c0a2e2",
+        "filename": "src/hal_gp.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-03-03T23:51:53Z",
+      "side": 1,
+      "message": "\u003d {0}; Constant through file ?",
+      "revId": "53798e48ac82b429a4f8898347724c6c3846915d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_a3abe61b",
+        "filename": "src/hal_gp.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-03-03T23:51:53Z",
+      "side": 1,
+      "message": "Return origin can be NULL -\u003e obsolite variable",
+      "revId": "53798e48ac82b429a4f8898347724c6c3846915d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_03bbda72",
+        "filename": "src/hal_gp.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-03-03T23:51:53Z",
+      "side": 1,
+      "message": "is_initilaized();",
+      "revId": "53798e48ac82b429a4f8898347724c6c3846915d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_83a6aa51",
+        "filename": "src/hal_gp.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 642,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-03-03T23:51:53Z",
+      "side": 1,
+      "message": "see my other comment",
+      "revId": "53798e48ac82b429a4f8898347724c6c3846915d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_43acb235",
+        "filename": "src/hal_gp.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-03-03T23:51:53Z",
+      "side": 1,
+      "message": "is_initialized();",
+      "revId": "53798e48ac82b429a4f8898347724c6c3846915d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_6378cec4",
+        "filename": "src/pkcs11_session_slot.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-03-03T23:51:53Z",
+      "side": 1,
+      "message": "Function is not setting if hSession is valid. And can pPin ptr be NULL?",
+      "revId": "53798e48ac82b429a4f8898347724c6c3846915d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_a382c691",
+        "filename": "src/pkcs11_session_slot.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-03-03T23:51:53Z",
+      "side": 1,
+      "message": "Same as previous comment + other paramters checks",
+      "revId": "53798e48ac82b429a4f8898347724c6c3846915d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_837d0ab4",
+        "filename": "src/pkcs11_session_slot.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-03-03T23:51:53Z",
+      "side": 1,
+      "message": "see above",
+      "revId": "53798e48ac82b429a4f8898347724c6c3846915d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_e34b1e85",
+        "filename": "src/pkcs11_session_slot.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-03-03T23:51:53Z",
+      "side": 1,
+      "message": "see above",
+      "revId": "53798e48ac82b429a4f8898347724c6c3846915d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
