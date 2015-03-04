@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1969be_a307661b",
+        "filename": "src/hal_gp.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-03-04T00:18:29Z",
+      "side": 1,
+      "message": "in out?",
+      "revId": "820456c0d4cd3cc417b174f31d96a69886775321",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_c31c227a",
+        "filename": "src/hal_gp.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-03-04T00:18:29Z",
+      "side": 1,
+      "message": "This is returning some random value. Map this into CK_RV. I think CKR_GENERIC_ERROR is enough",
+      "revId": "820456c0d4cd3cc417b174f31d96a69886775321",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_2314164d",
+        "filename": "src/hal_gp.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-03-04T00:18:29Z",
+      "side": 1,
+      "message": "ret val. See below function about same issues",
+      "revId": "820456c0d4cd3cc417b174f31d96a69886775321",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_83022a09",
+        "filename": "src/hal_gp.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-03-04T00:18:29Z",
+      "side": 1,
+      "message": "in out?",
+      "revId": "820456c0d4cd3cc417b174f31d96a69886775321",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_03175a52",
+        "filename": "src/hal_gp.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-03-04T00:18:29Z",
+      "side": 1,
+      "message": "pOldPin may be NULL?",
+      "revId": "820456c0d4cd3cc417b174f31d96a69886775321",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_630d6e3e",
+        "filename": "src/hal_gp.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-03-04T00:18:29Z",
+      "side": 1,
+      "message": "IN and OUT? Why?",
+      "revId": "820456c0d4cd3cc417b174f31d96a69886775321",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_e6004c03",
+        "filename": "src/hal_gp.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-03-04T00:18:29Z",
+      "side": 1,
+      "message": "null?",
+      "revId": "820456c0d4cd3cc417b174f31d96a69886775321",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a1969be_4308322d",
+        "filename": "src/hal_gp.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-03-04T00:18:29Z",
+      "side": 1,
+      "message": "in and out?",
+      "revId": "820456c0d4cd3cc417b174f31d96a69886775321",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
