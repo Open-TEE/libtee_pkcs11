@@ -1,0 +1,154 @@
+diff --git a/.gitignore b/.gitignore
+index edf6645..da653a1 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -3,6 +3,7 @@
+ *.ko
+ *.obj
+ *.elf
++*.lo
+ 
+ # Precompiled Headers
+ *.gch
+@@ -27,3 +28,32 @@
+ *.i*86
+ *.x86_64
+ *.hex
++
++# Autotools generated files
++Makefile
++Makefile.in
++aclocal.m4
++ar-lib
++autom4te.cache
++confdefs.h
++config.guess
++config.h
++config.h.in
++config.log
++config.status
++config.sub
++configure
++configure.scan
++compile
++depcomp
++install-sh
++ltmain.sh
++libtool
++m4
++missing
++stamp-h1
++.deps
++.dirstamp
++.libs
++
++*.qbs.user
+diff --git a/Makefile.am b/Makefile.am
+new file mode 100644
+index 0000000..80e7c9d
+--- /dev/null
++++ b/Makefile.am
+@@ -0,0 +1,17 @@
++# Makefile.am -- Process this file with automake to produce Makefile.in
++
++# Include libtool macros
++ACLOCAL_AMFLAGS = -I m4
++
++# Additional C compiler flags
++AM_CFLAGS = -Wall -Wextra -Werror
++
++# Shared libraries
++lib_LTLIBRARIES  =
++
++# Public header files
++include_HEADERS =
++
++# Include module-specific Makefiles
++include src/Makemodule.am
++include include/Makemodule.am
+diff --git a/README.md b/README.md
+index 3705c1e..f4c0b0d 100644
+--- a/README.md
++++ b/README.md
+@@ -1,2 +1,4 @@
+-# libtee_pkcs11
+-pkcs11 bindings for the TEE
++libtee
++======
++
++Common interface to GlobalPlatforms compliant Trusted Execution Environment
+diff --git a/REQUIRED b/REQUIRED
+new file mode 100644
+index 0000000..e69de29
+diff --git a/configure.ac b/configure.ac
+new file mode 100644
+index 0000000..773abe1
+--- /dev/null
++++ b/configure.ac
+@@ -0,0 +1,20 @@
++#                                               -*- Autoconf -*-
++# Process this file with autoconf to produce a configure script.
++
++AC_PREREQ([2.68])
++AC_INIT([libtee_pkcs11], [0.0.0], [https://github.com/Open-TEE/libtee/issues],
++	[libtee_pkcs11], [https://github.com/Open-TEE])
++AM_INIT_AUTOMAKE([dist-bzip2 foreign subdir-objects])
++AC_CONFIG_SRCDIR([src/hal_gp.c])
++AC_CONFIG_MACRO_DIR([m4])
++
++# Checks for programs.
++AC_PROG_CC
++LT_INIT
++
++# Checks for libraries.
++
++# Created configuration files
++AC_CONFIG_FILES([Makefile])
++
++AC_OUTPUT
+diff --git a/include/Makemodule.am b/include/Makemodule.am
+new file mode 100644
+index 0000000..69f38bf
+--- /dev/null
++++ b/include/Makemodule.am
+@@ -0,0 +1,8 @@
++# Public header files
++
++include_HEADERS += \
++	include/cryptoki.h \
++	include/pkcs11.h \
++	include/pkcs11f.h \
++	include/pkcs11t.h
++
+diff --git a/src/Makemodule.am b/src/Makemodule.am
+new file mode 100644
+index 0000000..d3aec72
+--- /dev/null
++++ b/src/Makemodule.am
+@@ -0,0 +1,26 @@
++# libtee shared library
++
++lib_LTLIBRARIES += libtee_pkcs11.la
++
++libtee_pkcs11_la_includes = \
++	include/cryptoki.h \
++	include/pkcs11.h \
++	include/pkcs11f.h \
++	include/pkcs11t.h
++	
++# Target specific variables
++libtee_pkcs11_la_SOURCES = \
++	src/hal_gp.c \
++	src/mutex_manager.c \
++	src/pkcs11_crypto.c \
++	src/pkcs11_general.c \
++	src/pkcs11_object.c \
++	src/pkcs11_session_slot.c 
++
++libtee_pkcs11_la_CFLAGS = ${AM_CFLAGS} \
++	-iquote $(top_srcdir)/include \
++	-iquote $(top_srcdir)/src
++
++libtee_pkcs11_la_LDFLAGS = ${AM_LDFLAGS} \
++	-version-info 0:0:0
++

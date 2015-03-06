@@ -1,2 +1,4 @@
-# libtee_pkcs11
-pkcs11 bindings for the TEE
+libtee
+======
+
+Common interface to GlobalPlatforms compliant Trusted Execution Environment
