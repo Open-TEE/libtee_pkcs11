@@ -189,11 +189,11 @@ CK_RV hal_init_token(CK_UTF8CHAR_PTR pPin, CK_ULONG ulPinLen, CK_UTF8CHAR_PTR pL
 	label_mem.flags = TEEC_MEM_INPUT;
 
 	ret = TEEC_RegisterSharedMemory(g_tee_context, &pin_mem);
-	if (ret != TEE_SUCCESS)
+	if (ret != TEEC_SUCCESS)
 		goto out1;
 
 	ret = TEEC_RegisterSharedMemory(g_tee_context, &label_mem);
-	if (ret != TEE_SUCCESS)
+	if (ret != TEEC_SUCCESS)
 		goto out2;
 
 	operation.paramTypes = TEEC_PARAM_TYPES(TEEC_MEMREF_WHOLE, TEEC_VALUE_INPUT,
