@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a106d94_34ef87b2",
+        "filename": "src/hal_gp.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 1003707
+      },
+      "writtenOn": "2015-03-26T10:14:16Z",
+      "side": 1,
+      "message": "in failure of register this rand_data is released in out",
+      "range": {
+        "startLine": 725,
+        "startChar": 2,
+        "endLine": 725,
+        "endChar": 11
+      },
+      "revId": "e22c2cfb3545abfaafb11272c6e7620411281169",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
