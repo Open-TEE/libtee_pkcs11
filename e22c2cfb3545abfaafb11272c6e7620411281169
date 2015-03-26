@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1a106d94_542fa3a1",
+        "filename": "src/hal_gp.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 1000797
+      },
+      "writtenOn": "2015-03-26T11:27:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a106d94_34ef87b2",
+      "range": {
+        "startLine": 725,
+        "startChar": 2,
+        "endLine": 725,
+        "endChar": 11
+      },
+      "revId": "e22c2cfb3545abfaafb11272c6e7620411281169",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a106d94_14540b53",
         "filename": "src/hal_gp.c",
         "patchSetId": 1
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "1a106d94_f4216fb5",
+        "filename": "src/hal_gp.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 733,
+      "author": {
+        "id": 1000797
+      },
+      "writtenOn": "2015-03-26T11:27:39Z",
+      "side": 1,
+      "message": "it is true, i currently do not see why it is needed, but I will leave it here and check it in the TA, incase the spec becomes clearer at some stage",
+      "parentUuid": "1a106d94_14540b53",
+      "revId": "e22c2cfb3545abfaafb11272c6e7620411281169",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a106d94_544e83c2",
         "filename": "src/pkcs11_crypto.c",
         "patchSetId": 1
@@ -53,6 +95,24 @@
       "writtenOn": "2015-03-26T10:43:25Z",
       "side": 1,
       "message": "Should it be check if RandomData ptr is not NULL? Would that be an error case?\n\nCheck also invalid session:\nif (hSession \u003d\u003d CK_INVALID_HANDLE)\n\treturn CKR_SESSION_HANDLE_INVALID;",
+      "revId": "e22c2cfb3545abfaafb11272c6e7620411281169",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_140c0b42",
+        "filename": "src/pkcs11_crypto.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1000797
+      },
+      "writtenOn": "2015-03-26T11:27:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a106d94_544e83c2",
       "revId": "e22c2cfb3545abfaafb11272c6e7620411281169",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
