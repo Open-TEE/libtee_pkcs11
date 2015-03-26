@@ -76,6 +76,9 @@ struct mechanisms {
 /* Object management functions */
 #define TEE_CREATE_OBJECT	0x000000A1
 #define TEE_DESTROY_OBJECT	0x000000A2
+#define TEE_FIND_OBJECTS_INIT	0x000000A5
+#define TEE_FIND_OBJECTS	0x000000A6
+#define TEE_FIND_OBJECTS_FINAL	0x000000A7
 
 /* Crypto commands */
 #define TEE_CRYPTO_INIT		0x000000C1
