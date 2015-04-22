@@ -1,0 +1,8 @@
+Code-Review+1: Tanel Dettenborn <tanel.dettenborn@intel.com>
+Code-Review+2: Brian McGillion <brian.mcgillion@intel.com>
+Verified+1: Brian McGillion <brian.mcgillion@intel.com>
+Submitted-by: Brian McGillion <brian.mcgillion@intel.com>
+Submitted-at: Wed, 22 Apr 2015 15:37:24 +0200
+Reviewed-on: https://review.gerrithub.io/230822
+Project: Open-TEE/libtee_pkcs11
+Branch: refs/heads/master
