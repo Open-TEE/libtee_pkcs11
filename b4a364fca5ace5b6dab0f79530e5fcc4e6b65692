@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a106d94_1f8e002e",
+        "filename": "Android.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003707
+      },
+      "writtenOn": "2015-05-15T12:53:20Z",
+      "side": 1,
+      "message": "these should too be in ifeq BUILD_WITH_SECURITY_FRAMEWORK",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 49
+      },
+      "revId": "b4a364fca5ace5b6dab0f79530e5fcc4e6b65692",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
