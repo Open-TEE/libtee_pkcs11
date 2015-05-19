@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "facab960_e5c71063",
+        "filename": "src/pkcs11_session_slot.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-05-19T15:36:02Z",
+      "side": 1,
+      "message": "g_supported_mechanisms replace with NULL (it is NULL, but for documenting)\n\nShould hal_get_info get updated. Now it would send zero buffer..",
+      "revId": "786c68df01b898085d6615971cc3c231e5c2f24c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_45a6fcc2",
+        "filename": "src/pkcs11_session_slot.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2015-05-19T15:36:02Z",
+      "side": 1,
+      "message": "This should return CKR_OK if you are getting just size",
+      "revId": "786c68df01b898085d6615971cc3c231e5c2f24c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
