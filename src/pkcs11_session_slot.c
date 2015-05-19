@@ -151,7 +151,7 @@ CK_RV C_GetMechanismList(CK_SLOT_ID slotID,
 
 	/* if we get here we have to retrieve the info from the TA */
 
-	g_supported_mechanisms = calloc(g_mechanism_count, sizeof(struct mechanisms));
+	g_supported_mechanisms = calloc(1, g_mechanism_count * sizeof(struct mechanisms));
 	if (g_supported_mechanisms == NULL)
 		return CKR_HOST_MEMORY;
 
@@ -162,12 +162,15 @@ CK_RV C_GetMechanismList(CK_SLOT_ID slotID,
 		if (ret == CKR_BUFFER_TOO_SMALL) {
 			g_mechanism_count *= 2; /* increase space for the mechanisms and retry */
 
-			struct mechanisms *tmp = realloc(g_supported_mechanisms, g_mechanism_count);
+			struct mechanisms *tmp =
+					realloc(g_supported_mechanisms,
+						g_mechanism_count * sizeof(struct mechanisms));
 			if (tmp == NULL) {
 				ret = CKR_HOST_MEMORY;
 				goto err_out;
 			}
 
+			memset(tmp, 0, g_mechanism_count * sizeof(struct mechanisms));
 			g_supported_mechanisms = tmp;
 			continue; /* back to the top and try again */
 
