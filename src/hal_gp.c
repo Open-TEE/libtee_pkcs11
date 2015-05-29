@@ -257,22 +257,21 @@ CK_RV hal_init_token(CK_UTF8CHAR_PTR pPin, CK_ULONG ulPinLen, CK_UTF8CHAR_PTR pL
 	if (ret != TEEC_SUCCESS)
 		goto out2;
 
-	operation.paramTypes = TEEC_PARAM_TYPES(TEEC_MEMREF_WHOLE, TEEC_VALUE_INPUT,
-						TEEC_MEMREF_WHOLE, TEEC_NONE);
+	operation.paramTypes = TEEC_PARAM_TYPES(TEEC_MEMREF_WHOLE, TEEC_MEMREF_WHOLE,
+						TEEC_VALUE_INPUT, TEEC_NONE);
 
 	operation.params[0].memref.parent = &pin_mem;
-	operation.params[1].value.a = ulPinLen;
-	operation.params[2].memref.parent = &label_mem;
+	operation.params[1].memref.parent = &label_mem;
+	operation.params[2].value.a = ulPinLen;
+	operation.params[2].value.b = label_mem.size;
 
 	ret = TEEC_InvokeCommand(g_control_session, TEE_INIT_TOKEN, &operation, NULL);
 	if (ret != 0)
 		ret = CKR_GENERAL_ERROR;
-
 out2:
 	TEEC_ReleaseSharedMemory(&label_mem);
 out1:
 	TEEC_ReleaseSharedMemory(&pin_mem);
-
 	return ret;
 }
 
@@ -501,22 +500,22 @@ CK_RV hal_get_info(uint32_t command_id, void *data, uint32_t *data_size)
 		goto out;
 
 	operation.paramTypes = TEEC_PARAM_TYPES(TEEC_MEMREF_WHOLE, TEEC_VALUE_INOUT,
-						TEEC_NONE, TEEC_NONE);
+						TEEC_VALUE_INOUT, TEEC_NONE);
 
 	operation.params[0].memref.parent = &data_mem;
 	operation.params[1].value.a = *data_size;
+	operation.params[2].value.a = *data_size;
 
 	ret = TEEC_InvokeCommand(g_control_session, command_id, &operation, NULL);
+
 	if (ret == TEEC_ERROR_SHORT_BUFFER)
 		ret = CKR_BUFFER_TOO_SMALL;
 	else if (ret != 0)
 		ret = CKR_GENERAL_ERROR;
 
 	*data_size = operation.params[1].value.a;
-
 out:
 	TEEC_ReleaseSharedMemory(&data_mem);
-
 	return ret;
 }
 
@@ -714,8 +713,8 @@ CK_RV hal_logout(CK_SESSION_HANDLE hSession)
 						TEEC_NONE, TEEC_VALUE_OUTPUT);
 	operation.params[0].value.a = hSession;
 
-	if(TEE_SUCCESS !=
-	   TEEC_InvokeCommand(g_control_session, TEE_LOGOUT_SESSION, &operation, NULL))
+	if (TEEC_SUCCESS !=
+		TEEC_InvokeCommand(g_control_session, TEE_LOGOUT_SESSION, &operation, NULL))
 		return CKR_GENERAL_ERROR;
 
 	return CKR_OK;
@@ -873,7 +872,7 @@ CK_RV hal_get_or_set_object_attr(uint32_t command_id,
 						TEEC_VALUE_INPUT, TEEC_VALUE_INOUT);
 
 	/* Hand over execution to TEE */
-	if (TEE_SUCCESS != TEEC_InvokeCommand(g_control_session, command_id, &operation, NULL)) {
+	if (TEEC_SUCCESS != TEEC_InvokeCommand(g_control_session, command_id, &operation, NULL)) {
 		operation.params[3].value.a = CKR_GENERAL_ERROR;
 		goto err;
 	}
@@ -905,7 +904,7 @@ CK_RV hal_find_objects_init(CK_SESSION_HANDLE hSession,
 
 	/* Register shared memory. It is used for trasfering template into TEE environment */
 	in_shm.flags = TEEC_MEM_INPUT;
-	if (TEEC_RegisterSharedMemory(g_tee_context, &in_shm) != TEE_SUCCESS) {
+	if (TEEC_RegisterSharedMemory(g_tee_context, &in_shm) != TEEC_SUCCESS) {
 		free(in_shm.buffer);
 		return CKR_GENERAL_ERROR;
 	}
@@ -946,7 +945,7 @@ CK_RV hal_find_objects(CK_SESSION_HANDLE hSession,
 	out_shm.buffer = phObject;
 	out_shm.size = ulMaxObjectCount * sizeof(CK_OBJECT_HANDLE_PTR);
 	out_shm.flags = TEEC_MEM_OUTPUT;
-	if (TEEC_RegisterSharedMemory(g_tee_context, &out_shm) != TEE_SUCCESS) {
+	if (TEEC_RegisterSharedMemory(g_tee_context, &out_shm) != TEEC_SUCCESS) {
 		free(out_shm.buffer);
 		return CKR_GENERAL_ERROR;
 	}
