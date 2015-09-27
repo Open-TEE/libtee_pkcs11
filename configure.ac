@@ -15,6 +15,6 @@ LT_INIT
 # Checks for libraries.
 
 # Created configuration files
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([Makefile libtee_pkcs11.pc])
 
 AC_OUTPUT

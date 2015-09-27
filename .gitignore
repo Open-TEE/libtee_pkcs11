@@ -57,3 +57,5 @@ stamp-h1
 .libs
 
 *.qbs.user
+
+libtee_pkcs11.pc
